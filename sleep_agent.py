@@ -16,6 +16,7 @@ def create_knowledge_base() -> JSONKnowledgeBase:
             table_name="sleep_data",
             db_url="postgresql://postgres:FHA8HuCkgYbwOaiqsMb3Z7SOl90Bh1QL@junction.proxy.rlwy.net:44594/railway"
         ),
+
     )
 
 knowledge_base = create_knowledge_base()
