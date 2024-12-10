@@ -1,9 +1,12 @@
 from typing import Any, Dict
-
+import logging
+import dotenv
 from phi.agent import Agent
 from phi.knowledge.json import JSONKnowledgeBase
 from phi.model.openai import OpenAIChat
 from phi.vectordb.pgvector import PgVector
+
+dotenv.load_dotenv(".env")
 
 
 def create_knowledge_base() -> JSONKnowledgeBase:
@@ -16,8 +19,8 @@ def create_knowledge_base() -> JSONKnowledgeBase:
             table_name="sleep_data",
             db_url="postgresql://postgres:FHA8HuCkgYbwOaiqsMb3Z7SOl90Bh1QL@junction.proxy.rlwy.net:44594/railway"
         ),
-
     )
+
 
 knowledge_base = create_knowledge_base()
 agent = Agent(
@@ -26,6 +29,6 @@ agent = Agent(
 )
 
 # First run only
-agent.knowledge.load(recreate=True)
+agent.knowledge.load(upsert=True)
 
 agent.print_response("Ask me about something from the knowledge base")
