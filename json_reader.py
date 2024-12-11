@@ -14,6 +14,7 @@ from phi.vectordb.pgvector import PgVector
 
 load_dotenv(".env")
 
+
 # Reader can be paginated!!
 class APIReader(Reader):
     access_token: str
@@ -68,6 +69,7 @@ class APIKnowledgeBase(AgentKnowledge):
     def document_lists(self) -> Iterator[List[Document]]:
         # Should raise StopIteration to end the loop
         while self.reader.can_iterate():
+        # for i in range(1):
             yield self.reader.read(self.path)
 
 
@@ -76,12 +78,14 @@ def create_knowledge_base() -> APIKnowledgeBase:
         path="/entries/by_key/sleep",
         vector_db=PgVector(
             table_name="sleep_data",
-            db_url="postgresql://anlyst:dev-postgresql@localhost:3007/global"
+            db_url="postgresql://anlyst:dev-postgresql@localhost:3007/global",
         ),
         reader=APIReader(
             access_token=os.getenv("ACCESS_TOKEN"),
         ),
+
     )
+
 
 knowledge_base = create_knowledge_base()
 agent = Agent(
@@ -91,4 +95,4 @@ agent = Agent(
 
 # First run only
 agent.knowledge.load(upsert=True)
-# agent.print_response("How much did I sleep in the past 7 days?")
+agent.print_response("How much did I sleep in the past week?")
