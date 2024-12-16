@@ -9,7 +9,7 @@ vault_tools = VaultAPITools(
     enable_history=True
 )
 
-agent = Agent(
+vault_agent = Agent(
     name="Vault Analyst",
     model=OpenAIChat(model="gpt-4"),
     tools=[vault_tools],
